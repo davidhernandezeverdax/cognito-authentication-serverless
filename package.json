@@ -1,0 +1,19 @@
+{
+  "name": "cognito-authentication-serverless",
+  "version": "1.0.0",
+  "description": "This project is a serverless Node.js application for user authentication and authorization, leveraging AWS Cognito and JWT (JSON Web Tokens). It provides endpoints for user registration, login, and token validation, suitable for integrating into a broader application requiring user management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1506.0",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "serverless-http": "^3.2.0"
+  }
+}

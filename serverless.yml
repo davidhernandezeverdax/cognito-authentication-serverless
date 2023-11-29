@@ -1,0 +1,45 @@
+service: auth-service-test
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  environment:
+    COGNITO_USER_POOL_ID: ${ssm:/${self:service}/COGNITO_USER_POOL_ID}
+    COGNITO_CLIENT_ID: ${ssm:/${self:service}/COGNITO_CLIENT_ID}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - cognito-idp:SignUp
+        - cognito-idp:AdminInitiateAuth
+        - cognito-idp:AdminUserGlobalSignOut
+      Resource: 'arn:aws:cognito-idp:${self:provider.region}:*:userpool/${self:provider.environment.COGNITO_USER_POOL_ID}'
+
+    - Effect: Allow
+      Action: 'ssm:GetParameter*'
+      Resource:
+        - 'arn:aws:ssm:${self:provider.region}:*:parameter/${self:service}/COGNITO_USER_POOL_ID'
+        - 'arn:aws:ssm:${self:provider.region}:*:parameter/${self:service}/COGNITO_CLIENT_ID'
+  
+
+functions:
+  confirm:
+    handler: src/handlers/confirmUser.handler
+    events:
+      - http:
+          path: confirm
+          method: post
+
+  register:
+    handler: src/handlers/registerUser.handler
+    events:
+      - http:
+          path: register
+          method: post
+
+  login:
+    handler: src/handlers/loginUser.handler
+    events:
+      - http:
+          path: login
+          method: post
